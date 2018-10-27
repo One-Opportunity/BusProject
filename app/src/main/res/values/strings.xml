@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">GwangJuBus</string>
+    <string name="str_tab_favorite">즐겨찾기</string>
+    <string name="str_tab_station">정류장</string>
+    <string name="str_tab_route">노선</string>
+    <string name="str_tab_info">어플 정보</string>
+</resources>
