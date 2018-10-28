@@ -29,7 +29,8 @@ public class ArriveDTO {
                                  *  0 : 일반
                                  *  1 : 곧도착 */
 
-            LINE_NAME;          // 노선명
+            LINE_NAME,          // 노선명
+            ROW_COUNT;          // 버스 개수
 
     public String getREMAIN_STOP() {
         return REMAIN_STOP;
@@ -141,6 +142,14 @@ public class ArriveDTO {
 
     public void setLINE_NAME(String LINE_NAME) {
         this.LINE_NAME = LINE_NAME;
+    }
+
+    public String getROW_COUNT() {
+        return ROW_COUNT;
+    }
+
+    public void setROW_COUNT(String ROW_COUNT) {
+        this.ROW_COUNT = ROW_COUNT;
     }
 
     @Override

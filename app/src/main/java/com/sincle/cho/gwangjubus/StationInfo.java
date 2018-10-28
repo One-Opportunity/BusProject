@@ -1,8 +1,13 @@
 package com.sincle.cho.gwangjubus;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.Handler;
+import android.support.annotation.NonNull;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,24 +33,45 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import static java.security.AccessController.getContext;
 
-public class StationInfo extends AppCompatActivity {
-    private Intent intent;
-    String stationId;
-    private TextView stationName;
-    private Retrofit retrofit;
-    private ApiService apiService;
-    private ArrayList<ArriveDTO> list;
-    private AdapterArriveInfo adapter;
-    private ListView listView;
+public class StationInfo extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
+    Intent intent;
+    String stationSeq, stationName, nextStation, stationNum;
+    TextView tv_stationName, tv_nextStation, tv_stationNum, tv_hide;
+    Retrofit retrofit;
+    ApiService apiService;
+    ArrayList<ArriveDTO> list;
+    AdapterArriveInfo adapter;
+    ListView listView;
     ArriveDTO[] array;
+    SwipeRefreshLayout swipeRefresh;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_station_info);
-        intent = getIntent();
-        stationId = intent.getStringExtra("stationId");
+        init();
         getArrive();
 
+    }
+
+    private void init() {
+        tv_stationName = (TextView)findViewById(R.id.station_name);
+        tv_stationNum = (TextView)findViewById(R.id.station_num);
+        tv_nextStation = (TextView)findViewById(R.id.station_next);
+        swipeRefresh = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);
+        swipeRefresh.setOnRefreshListener(this);
+        intent = getIntent();
+        stationSeq = intent.getStringExtra("stationSeq");
+        stationName = intent.getStringExtra("stationName");
+        nextStation = intent.getStringExtra("nextStation");
+        stationNum = intent.getStringExtra("stationNum");
+        tv_stationName.setText(stationName);
+        if(!"null".equals(stationNum+"")) {
+            tv_stationNum.setText("<" + stationNum.trim() + ">");
+        }
+
+        if (!"null".equals(nextStation+"")) {
+            tv_nextStation.setText(nextStation + " 방향");
+        }
     }
 
     public void getArrive(){
@@ -54,14 +80,18 @@ public class StationInfo extends AppCompatActivity {
                 .build();
 
         apiService = retrofit.create(ApiService.class);
-        Call<JsonObject> station = apiService.getArrive(ApiService.SERVICE_KEY , stationId);
+        Call<JsonObject> station = apiService.getArrive(ApiService.SERVICE_KEY , stationSeq);
 
         station.enqueue(new Callback<JsonObject>() {
             @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+            public void onResponse(@NonNull Call<JsonObject> call, @NonNull Response<JsonObject> response) {
                 if (response.isSuccessful()) {
                     JsonObject object = response.body();
-                    JsonArray busstopList = object.getAsJsonArray("BUSSTOP_LIST");
+                    JsonArray busstopList = null;
+                    Log.d("ROW_COUNT", object.get("ROW_COUNT") +"");
+                    if(object != null) {
+                        busstopList = object.getAsJsonArray("BUSSTOP_LIST");
+                    }
                     Gson gson = new Gson();
                     array = gson.fromJson(busstopList, ArriveDTO[].class);
                     list = new ArrayList<>(Arrays.asList(array));
@@ -72,9 +102,21 @@ public class StationInfo extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
+            public void onFailure(@NonNull Call<JsonObject> call, @NonNull Throwable t) {
 
             }
         });
+    }
+
+    @Override
+    public void onRefresh() {
+        swipeRefresh.setRefreshing(true);
+
+                adapter.notifyDataSetChanged();
+                getArrive();
+                swipeRefresh.setRefreshing(false);
+
+
+
     }
 }

@@ -19,7 +19,8 @@ public class AdapterStationSearch extends BaseAdapter {
     private Context context;
     private List<StationInfoDTO> list;
     private LayoutInflater inflate;
-    ViewHolder viewHolder;
+    private StationInfoDTO stationInfoDTO;
+    private ViewHolder viewHolder;
 
     public AdapterStationSearch(List<StationInfoDTO> list, Context context){
         this.list = list;
@@ -55,15 +56,17 @@ public class AdapterStationSearch extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) view.getTag();
         }
-
+        stationInfoDTO = list.get(i);
         // 리스트에 있는 데이터를 리스트뷰 셀에 뿌린다.
-        viewHolder.search_station.setText(list.get(i).getBUSSTOP_NAME());
-        if (!"null".equals(list.get(i).getNEXT_BUSSTOP()+"")) {
-            viewHolder.search_station_next.setText(list.get(i).getNEXT_BUSSTOP() + " 방향");
+
+        viewHolder.search_station.setText(stationInfoDTO.getBUSSTOP_NAME());
+        if (!"null".equals(stationInfoDTO.getNEXT_BUSSTOP()+"")) {
+            viewHolder.search_station_next.setText(stationInfoDTO.getNEXT_BUSSTOP() + " 방향");
         }
-        if (!"null".equals(list.get(i).getARS_ID()+"")) {
-            viewHolder.search_station_num.setText(" <" + list.get(i).getARS_ID() + ">");
+        if (!"null".equals(stationInfoDTO.getARS_ID()+"")) {
+            viewHolder.search_station_num.setText(" <" + stationInfoDTO.getARS_ID().trim() + ">");
         }
+
         return view;
     }
 

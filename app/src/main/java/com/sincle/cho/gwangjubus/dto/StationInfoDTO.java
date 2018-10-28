@@ -105,4 +105,8 @@ public class StationInfoDTO {
         this.LATITUDE = LATITUDE;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof StationInfoDTO && BUSSTOP_ID.equals(((StationInfoDTO) obj).getBUSSTOP_ID());
+    }
 }

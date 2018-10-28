@@ -4,4 +4,6 @@
     <string name="str_tab_station">정류장</string>
     <string name="str_tab_route">노선</string>
     <string name="str_tab_info">어플 정보</string>
+    <string name="str_station_search">정류장명 또는 정류장번호를 입력하세요</string>
+    <string name="str_hide_none">운행중인 버스가 없습니다</string>
 </resources>

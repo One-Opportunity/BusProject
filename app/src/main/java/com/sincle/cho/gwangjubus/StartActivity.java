@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.sincle.cho.gwangjubus.fragment.FragmentFavorite;
+import com.sincle.cho.gwangjubus.fragment.FragmentBookmark;
 import com.sincle.cho.gwangjubus.fragment.FragmentInfo;
 import com.sincle.cho.gwangjubus.fragment.FragmentRoute;
 import com.sincle.cho.gwangjubus.fragment.FragmentStation;
@@ -29,11 +29,11 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
     Drawable img02_sel;
     Drawable img03_sel;
     Drawable img04_sel;
-    String color = "#FF9D00";
-    int FRAGMENT_FAVORITE   = 1;
-    int FRAGMENT_STATION    = 2;
-    int FRAGMENT_ROUTE      = 3;
-    int FRAGMENT_INFO       = 4;
+    private final static String COLOR = "#FF9D00";
+    private final static int FRAGMENT_FAVORITE   = 1;
+    private final static int FRAGMENT_STATION    = 2;
+    private final static int FRAGMENT_ROUTE      = 3;
+    private final static int FRAGMENT_INFO       = 4;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -99,7 +99,7 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
         android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         switch (fragId) {
             case 1:
-                FragmentFavorite frg1 = new FragmentFavorite();
+                FragmentBookmark frg1 = new FragmentBookmark();
                 transaction.replace(R.id.fragment_container, frg1);
                 transaction.commit();
             break;
@@ -129,7 +129,7 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
     private void clickImg(int imgId){
         switch (imgId) {
             case 1:
-                tab01.setTextColor(Color.parseColor(color));
+                tab01.setTextColor(Color.parseColor(COLOR));
                 tab01.setCompoundDrawablesWithIntrinsicBounds(null, img01_sel, null, null);
                 tab02.setTextColor(Color.BLACK);
                 tab02.setCompoundDrawablesWithIntrinsicBounds(null, img02, null, null);
@@ -141,7 +141,7 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
             case 2:
                 tab01.setTextColor(Color.BLACK);
                 tab01.setCompoundDrawablesWithIntrinsicBounds(null, img01, null, null);
-                tab02.setTextColor(Color.parseColor(color));
+                tab02.setTextColor(Color.parseColor(COLOR));
                 tab02.setCompoundDrawablesWithIntrinsicBounds(null, img02_sel, null, null);
                 tab03.setTextColor(Color.BLACK);
                 tab03.setCompoundDrawablesWithIntrinsicBounds(null, img03, null, null);
@@ -155,7 +155,7 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
                 tab01.setCompoundDrawablesWithIntrinsicBounds(null, img01, null, null);
                 tab02.setTextColor(Color.BLACK);
                 tab02.setCompoundDrawablesWithIntrinsicBounds(null, img02, null, null);
-                tab03.setTextColor(Color.parseColor(color));
+                tab03.setTextColor(Color.parseColor(COLOR));
                 tab03.setCompoundDrawablesWithIntrinsicBounds(null, img03_sel, null, null);
                 tab04.setTextColor(Color.BLACK);
                 tab04.setCompoundDrawablesWithIntrinsicBounds(null, img04, null, null);
@@ -168,7 +168,7 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
                 tab02.setCompoundDrawablesWithIntrinsicBounds(null, img02, null, null);
                 tab03.setTextColor(Color.BLACK);
                 tab03.setCompoundDrawablesWithIntrinsicBounds(null, img03, null, null);
-                tab04.setTextColor(Color.parseColor(color));
+                tab04.setTextColor(Color.parseColor(COLOR));
                 tab04.setCompoundDrawablesWithIntrinsicBounds(null, img04_sel, null, null);
                 break;
             default:
